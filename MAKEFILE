@@ -1,0 +1,18 @@
+CXX = wcc386
+LD  = wlink
+
+INCLUDE = $(%WATCOM)\h
+
+all: D4.EXE .SYMBOLIC
+
+OBJS=main.obj s3m.obj s3m_play.obj sb.obj sb_dsp.obj sb_irq.obj sb_dma.obj
+
+D4.EXE: $(OBJS)
+#	$(LD) NAME $@ OP quiet OP el SYSTEM dos4g d all FILE {$(OBJS)} OPTION map DEBUG ALL
+	$(LD) NAME $@ OP el SYSTEM dos4g d all FILE {$(OBJS)}
+
+.c.obj:
+  	$(CXX) -i=$(INCLUDE) -zq -d2 -bt=dos4g -3 -fp3 -fpi87 -zp1 -os -mf -fo=$^@ $<
+
+CLEAN_TARGS = *.obj
+
